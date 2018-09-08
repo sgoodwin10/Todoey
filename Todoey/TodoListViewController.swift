@@ -10,7 +10,7 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
     
-    let itemArray = ["Find mike", "Buy eggs", "Go to school"]
+    var itemArray = ["Find mike", "Buy eggs", "Go to school"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ class TodoListViewController: UITableViewController {
         
         // add accessory
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .nonre
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
         }
         else {
            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
@@ -54,5 +54,36 @@ class TodoListViewController: UITableViewController {
         
     }
 
+    //MARK: add new items
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        // alert popup
+        let alert = UIAlertController(title: "Add New ITem", message: "", preferredStyle: .alert)
+        
+        // alert buttons
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            //what will happen once the user clicks the add item on our uialert
+            
+            self.itemArray.append( textField.text! )
+            
+            // update/reload the tableview
+            self.tableView.reloadData()
+        }
+        
+        // this creates the textfield to be used, before the popup, so popup will have textField access
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create New Item"
+            textField = alertTextField
+        }
+        
+        // add action button to alert
+        alert.addAction(action)
+        
+        
+        
+        present(alert, animated: true, completion: nil)
+    }
 }
 
